@@ -1,1 +1,2 @@
 cmd/audio-streamer/debug
+bin/*.exe

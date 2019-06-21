@@ -1,6 +1,9 @@
 package audioencoder
 
-import "os"
+import (
+	"encoding/gob"
+	"os"
+)
 
 const (
 	//AudioTypeUNKNOWN AudioType enum definition for unkown files
@@ -22,13 +25,35 @@ type AudioType int
 
 //AudioSpectrum is a audio frequency vector
 type AudioSpectrum struct {
-	Matrix [][2]float64
-	Format AudioFormat
+	Matrix [][2]float64 `json:"matrix"`
+	Format AudioFormat  `json:"format"`
 }
 
 //AudioFormat is  a audio converted metada struct
 type AudioFormat struct {
-	SampleRate  int
-	NumChannels int
-	Precision   int
+	SampleRate  int `json:"samplerate"`
+	NumChannels int `json:"numchannels"`
+	Precision   int `json:"precision"`
+}
+
+//Save a binary file of the audio matrix structure
+func (s AudioSpectrum) Save(path string) error {
+	file, err := os.Create(path)
+	if err == nil {
+		encoder := gob.NewEncoder(file)
+		encoder.Encode(s)
+	}
+	file.Close()
+	return err
+}
+
+//Load a binary file of the audio matrix strucutre
+func (s *AudioSpectrum) Load(path string) error {
+	file, err := os.Open(path)
+	if err == nil {
+		decoder := gob.NewDecoder(file)
+		err = decoder.Decode(s)
+	}
+	file.Close()
+	return err
 }
