@@ -1,4 +1,4 @@
-# Gobio : Audio processing library using Aubio interface
+# Gobio : Audio processing library using Aubio interface (In Development)
 
 ## Overview [![GoDoc](https://godoc.org/github.com/viamus/Gobio?status.svg)](https://godoc.org/github.com/viamus/Gobio)
 
